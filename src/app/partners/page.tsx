@@ -1,0 +1,3 @@
+import { PageIntro } from "@/components/page-intro";
+import { PartnerForm } from "@/components/partner-form";
+export default function PartnersPage(){return <><PageIntro kicker="Partners & sponsors" title="Build something valuable with us." text="Reach a global community of Oxford alumni through thoughtful partnerships, programmes and shared opportunities."/><section className="py-16 sm:py-24"><div className="shell grid gap-14 lg:grid-cols-[.65fr_1fr]"><div><p className="kicker">Start a conversation</p><h2 className="display mt-5 text-4xl font-semibold">Tell us where our interests meet.</h2><p className="mt-5 max-w-md text-[#667080]">Share a few details and the network team will get back to you to explore the fit.</p></div><PartnerForm/></div></section></>}

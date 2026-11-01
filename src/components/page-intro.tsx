@@ -1,0 +1,1 @@
+export function PageIntro({kicker,title,text}:{kicker:string;title:string;text:string}){return <section className="page-hero"><div className="shell"><p className="kicker">{kicker}</p><h1 className="title mt-5 max-w-5xl">{title}</h1><p className="body-large mt-8 max-w-2xl text-[#667080]">{text}</p></div></section>}
