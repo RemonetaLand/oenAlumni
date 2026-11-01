@@ -1,3 +1,17 @@
-import { JoinForm } from "@/components/join-form";
+import type { Metadata } from "next";
+import { JoinForm, StatusForm } from "@/components/join-form";
 import { PageIntro } from "@/components/page-intro";
-export default function JoinPage(){return <><PageIntro kicker="Join us" title="Your experience belongs here." text="Join a worldwide community of Oxford alumni who share an interest in enterprise, leadership and creating positive impact."/><section className="py-16 sm:py-24"><div className="shell grid gap-12 lg:grid-cols-[.48fr_1fr]"><aside><p className="kicker">Membership</p><h2 className="display mt-4 text-4xl font-semibold">Before you begin</h2><p className="mt-5 text-sm leading-7 text-[#667080]">Please use an email address you check regularly. In the live version, we will send a link to confirm your membership and preferences.</p><p className="mt-5 text-sm leading-7 text-[#667080]">Fields marked with an asterisk are required.</p></aside><JoinForm/></div></section></>}
+
+export const metadata: Metadata = { title: "Join Us" };
+
+export default function JoinPage() {
+  return (
+    <>
+      <PageIntro kicker="Membership" title="Join Us" text="Become part of a global community of Oxford alumni who share an interest in enterprise and leadership." />
+      <section className="shell grid gap-8 pb-8">
+        <JoinForm />
+        <StatusForm />
+      </section>
+    </>
+  );
+}

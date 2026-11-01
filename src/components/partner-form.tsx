@@ -1,5 +1,22 @@
 "use client";
-import { Check } from "lucide-react";
-import { FormEvent,useState } from "react";
-export function PartnerForm(){const[done,setDone]=useState(false);function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(e.currentTarget.checkValidity())setDone(true)}if(done)return <div className="border border-[#9ab4a5] bg-[#edf4ef] p-8"><Check className="text-[#2d6a48]"/><h2 className="display mt-5 text-4xl font-semibold">Thank you for getting in touch.</h2><p className="mt-3 text-[#667080]">Demo complete. No details were stored or emailed.</p><button onClick={()=>setDone(false)} className="button-secondary mt-6">Send another enquiry</button></div>;return <form onSubmit={submit} className="grid gap-5"><div className="demo-note"><strong>Prototype only:</strong> Submissions are not stored or sent.</div><div className="grid gap-5 sm:grid-cols-2"><Field label="First name" name="firstName" required/><Field label="Surname" name="surname" required/><Field label="Company name" name="company"/><Field label="Telephone" name="telephone" type="tel" required/><Field label="Email" name="email" type="email" required/></div><div className="field"><label htmlFor="request">Tell us about your request</label><textarea id="request" maxLength={500}/><p className="text-right text-xs text-[#7a828c]">Maximum 500 characters</p></div><button className="button-primary w-fit">Send partnership enquiry</button></form>}
-function Field({label,name,type="text",required=false}:{label:string;name:string;type?:string;required?:boolean}){return <div className="field"><label htmlFor={name}>{label}{required&&<span className="ml-1 text-copper">*</span>}</label><input id={name} name={name} type={type} required={required}/></div>}
+import { Field, LimitedText, Success, useRequiredForm } from "./fields";
+
+export function PartnerForm() {
+  const { errors, done, submit, reset } = useRequiredForm();
+  if (done)
+    return <Success title="Thank you for getting in touch" again="Send another enquiry" onReset={reset}
+      text="Demo only: nothing was stored or emailed. In the live version your details are saved and sent to the chairman." />;
+  return (
+    <form onSubmit={submit} noValidate className="panel grid gap-5 p-6 sm:p-9">
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field label="First Name" name="firstName" required errors={errors} />
+        <Field label="Surname" name="surname" required errors={errors} />
+        <Field label="Company name (optional)" name="company" errors={errors} />
+        <Field label="Telephone" name="telephone" type="tel" required errors={errors} />
+        <div className="sm:col-span-2"><Field label="Email" name="email" type="email" required errors={errors} /></div>
+      </div>
+      <LimitedText label="Details of your request (optional)" name="request" />
+      <button className="btn w-fit" type="submit">Submit</button>
+    </form>
+  );
+}

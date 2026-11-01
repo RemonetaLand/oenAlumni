@@ -1,5 +1,36 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
-const goals=["Manage a world-leading community of entrepreneurial Oxford alumni.","Use our collective expertise, networks and resources to support one another’s success.","Strengthen Oxford University’s presence in the global entrepreneurial ecosystem.","Create opportunities for future generations of entrepreneurs.","Promote integrity, sustainability and responsible business leadership."];
-export default function AboutPage(){return <><PageIntro kicker="About us" title="Oxford connected by enterprise." text="The official University of Oxford alumni group for entrepreneurs, business leaders and those interested in entrepreneurship."/><section className="py-20 sm:py-28"><div className="shell grid gap-14 lg:grid-cols-[.7fr_1.3fr]"><p className="kicker">Our mission</p><div className="body-large space-y-7 text-[#4e5a6a]"><p>We support Oxford alumni and their ventures by fostering connections, sharing knowledge, creating opportunities and strengthening engagement with the University of Oxford.</p><p>Through a global network of thousands of members, we deliver virtual and in-person events, training, mentoring, coaching, business resources and networking opportunities that help entrepreneurs and businesses grow.</p></div></div></section><section className="bg-oxford py-20 text-white sm:py-28"><div className="shell grid gap-14 lg:grid-cols-[.7fr_1.3fr]"><p className="kicker !text-[#e9ad83]">Our goals</p><ol className="divide-y divide-white/15">{goals.map((goal,i)=><li key={goal} className="grid grid-cols-[44px_1fr] gap-4 py-6 first:pt-0"><span className="display text-2xl text-white/40">{i+1}</span><p className="text-lg leading-8">{goal}</p></li>)}</ol></div></section><section className="py-20 sm:py-28"><div className="shell grid gap-8 md:grid-cols-2 md:items-end"><div><p className="kicker">Partner with us</p><h2 className="section-title mt-5">Expand your reach.</h2></div><div><p className="text-[#667080]">We welcome sponsors and strategic partners who want to engage with our global community through events, programmes and the entrepreneurial ecosystem.</p><Link href="/partners" className="button-primary mt-7">Explore partnership <ArrowUpRight size={16}/></Link></div></div></section></>}
+
+export const metadata: Metadata = { title: "About Us" };
+
+const goals = [
+  "Manage a world-leading community of entrepreneurial Oxford alumni",
+  "Leverage our collective expertise, networks, and resources to support one another’s success",
+  "Strengthen Oxford University’s presence within the global entrepreneurial ecosystem",
+  "Give back by creating opportunities for future generations of entrepreneurs",
+  "Promote integrity, sustainability, and responsible business leadership",
+];
+
+export default function AboutPage() {
+  return (
+    <>
+      <PageIntro kicker="About Us" title="About the Oxford Entrepreneurs Alumni Network" />
+      <section className="shell pb-8">
+        <div className="panel flat-copy max-w-3xl p-7 sm:p-10" style={{ lineHeight: 1.7 }}>
+          <p>The Oxford Entrepreneurs Alumni Network is the official University of Oxford alumni group for entrepreneurs, business leaders, and those interested in entrepreneurship. Formally recognised by Oxford University’s Alumni Engagement team, it connects alumni across the globe through a thriving entrepreneurial community.</p>
+          <p>Our mission is to support Oxford alumni and their ventures by fostering connections, sharing knowledge, creating opportunities, and strengthening engagement with the University of Oxford.</p>
+          <p>Through a global network of thousands of members, we deliver virtual and in-person events, training, mentoring, coaching, business resources, and networking opportunities that help entrepreneurs and businesses grow and succeed.</p>
+          <h2 className="h2">Our Goals</h2>
+          <ul className="list-disc pl-6 marker:text-gold">
+            {goals.map((g) => <li key={g}>{g}</li>)}
+          </ul>
+          <h2 className="h2">Partner with us</h2>
+          <p>Looking to expand your reach?</p>
+          <p>We welcome new members, sponsors, and strategic partners who want to engage with our global community of Oxford alumni. Through partnership opportunities, your organisation can gain visibility across our events, programmes, and entrepreneurial ecosystem.</p>
+          <p>To learn more, contact <a className="font-bold underline" href="mailto:info@oenAlumni.com">info@oenAlumni.com</a> or visit <Link className="font-bold underline" href="/partners">Partners &amp; Sponsors</Link>.</p>
+        </div>
+      </section>
+    </>
+  );
+}

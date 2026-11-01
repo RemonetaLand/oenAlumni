@@ -1,7 +1,38 @@
 "use client";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-const links = [["About","/about"],["Join us","/JoinUs"],["Leadership","/contact"],["Partners","/partners"]] as const;
-export function Header(){const[open,setOpen]=useState(false);const pathname=usePathname();return <header className="sticky top-0 z-40 border-b border-[#d8d3c7] bg-[#f8f7f2]/95 backdrop-blur-md"><div className="shell flex min-h-24 items-center justify-between gap-8 py-4"><Link href="/" className="leading-none" onClick={()=>setOpen(false)}><span className="display block text-[1.5rem] font-semibold tracking-[-.03em] text-oxford sm:text-[1.85rem]">Oxford Entrepreneurs</span><span className="mt-1 block text-[.66rem] font-bold uppercase tracking-[.2em] text-[#667080]">Alumni Network</span></Link><nav aria-label="Primary navigation" className="hidden items-center gap-7 md:flex">{links.map(([label,href])=><Link key={href} href={href} className={`border-b py-2 text-[.8rem] font-bold ${pathname===href?"border-copper text-oxford":"border-transparent text-[#566170] hover:text-oxford"}`}>{label}</Link>)}</nav><button className="grid h-11 w-11 place-items-center border border-[#bfc3c7] md:hidden" onClick={()=>setOpen(!open)} aria-expanded={open} aria-label={open?"Close menu":"Open menu"}>{open?<X size={20}/>:<Menu size={20}/>}</button></div>{open&&<nav aria-label="Mobile navigation" className="border-t border-stone bg-paper px-5 py-5 md:hidden">{links.map(([label,href])=><Link key={href} href={href} onClick={()=>setOpen(false)} className="block border-b border-[#dedad0] py-4 font-bold">{label}</Link>)}</nav>}</header>}
+
+const links = [
+  ["About Us", "/about"],
+  ["Contact", "/contact"],
+  ["Partners & Sponsors", "/partners"],
+] as const;
+
+export function Header() {
+  const pathname = usePathname().replace(/\/$/, "") || "/";
+  return (
+    <header className="border-b border-stone/70 bg-paper/80 backdrop-blur-md">
+      <div className="shell flex items-start justify-between gap-6 py-5">
+        <div>
+          <Link href="/" className="display block text-[1.7rem] font-semibold leading-none tracking-[-0.02em] text-oxford sm:text-[2.3rem]">
+            Oxford Entrepreneurs Network
+          </Link>
+          {/* Menu sits under the logo, half its size, plain words left to right */}
+          <nav aria-label="Primary" className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-[.8rem] font-semibold sm:text-[1.1rem]">
+            {links.map(([label, href]) => (
+              <Link
+                key={href}
+                href={href}
+                aria-current={pathname === href ? "page" : undefined}
+                className={`border-b-2 pb-0.5 transition-colors ${pathname === href ? "border-gold text-oxford" : "border-transparent text-muted hover:text-oxford"}`}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <Link href="/JoinUs" className="btn mt-1 shrink-0">Join Us</Link>
+      </div>
+    </header>
+  );
+}

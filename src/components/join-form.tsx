@@ -1,6 +1,66 @@
 "use client";
-import { Check,ChevronDown } from "lucide-react";
-import { FormEvent,useState } from "react";
-const consent=["I agree that my details may be saved and processed by the Oxford Entrepreneurs Alumni Network.","I agree to receive essential operational emails and the alumni newsletter.","I agree to receive event invitations and educational information.","I agree that my details may be shared with Oxford University’s alumni office.","I agree to share my data with vetted and curated third parties.","I agree to be invited to alumni communication groups, with the option to decline.","I am open to volunteering, supporting or sponsoring the network."];
-export function JoinForm(){const[done,setDone]=useState(false);function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(e.currentTarget.checkValidity())setDone(true)}if(done)return <div className="border border-[#9ab4a5] bg-[#edf4ef] p-8" role="status"><span className="grid h-11 w-11 place-items-center rounded-full bg-[#2d6a48] text-white"><Check/></span><h2 className="display mt-6 text-4xl font-semibold">Application received</h2><p className="mt-3 max-w-lg text-[#536071]">This is a frontend demo, so nothing was saved and no email was sent. The live version will email a confirmation link.</p><button className="button-secondary mt-7" onClick={()=>setDone(false)}>Try the form again</button></div>;return <form onSubmit={submit} className="grid gap-10" noValidate={false}><div className="demo-note"><strong>Prototype only:</strong> Submissions are not stored or sent.</div><fieldset className="grid gap-5"><legend className="display mb-6 text-3xl font-semibold">Your details</legend><div className="grid gap-5 sm:grid-cols-2"><Field label="First name" name="firstName" required/><Field label="Surname" name="surname" required/><Field label="Telephone" name="telephone" type="tel" required/><Field label="Email" name="email" type="email" required/><Field label="College" name="college" required/><Field label="Year of matriculation" name="year" type="number" required/><Field label="Alumni number" name="alumniNumber"/><div className="field relative"><label htmlFor="country">Country</label><select id="country" name="country" defaultValue=""><option value="" disabled>Select country</option><option>United Kingdom</option><option>United States</option><option>India</option><option>Bangladesh</option><option>Other</option></select><ChevronDown className="pointer-events-none absolute bottom-4 right-3" size={16}/></div></div><div className="field"><label htmlFor="address">Address, city and postcode</label><input id="address" name="address" autoComplete="street-address"/></div><div className="field"><label htmlFor="details">Anything else you would like to add</label><textarea id="details" name="details" maxLength={500}/><p className="text-right text-xs text-[#7a828c]">Maximum 500 characters</p></div></fieldset><fieldset><legend className="display mb-2 text-3xl font-semibold">How you would like to be involved</legend><p className="mb-6 text-sm text-[#667080]">The first two permissions are required to process your membership.</p><div className="grid gap-3">{consent.map((label,i)=><label key={label} className="flex cursor-pointer gap-3 border border-[#d4d0c6] bg-[#fffefa] p-4 text-sm leading-6"><input className="mt-1 h-4 w-4 accent-[#002147]" type="checkbox" name={`consent-${i}`} required={i<2}/><span>{label}{i<2&&<strong className="ml-1 text-copper">*</strong>}</span></label>)}</div></fieldset><button className="button-primary w-fit" type="submit">Send application</button></form>}
-function Field({label,name,type="text",required=false}:{label:string;name:string;type?:string;required?:boolean}){return <div className="field"><label htmlFor={name}>{label}{required&&<span className="ml-1 text-copper">*</span>}</label><input id={name} name={name} type={type} required={required}/></div>}
+import { Check_, Field, LimitedText, Success, useRequiredForm } from "./fields";
+
+export const optionalConsents = [
+  "I agree to receive event invitations, informational, educational knowledge and similar.",
+  "I agree my details can be shared with Oxford University’s alumni office.",
+  "I agree to share my data with vetted and curated third parties.",
+  "I agree to be added to alumni communication groups, for example the WhatsApp alumni groups (for which I will first be informed about and be able to opt out of).",
+  "I am open to act as a volunteer, support and/or sponsor the network.",
+];
+const requiredConsents = [
+  "I agree that my details will be saved, used and processed by the Oxford Entrepreneurs Alumni Network and/or its operational partners and made available, in aggregate/hiding your specific details, for confidential statistical/research purposes.",
+  "I agree to receive necessary emails about operational and important alumni matters and the alumni newsletter.",
+];
+
+export function JoinForm() {
+  const { errors, done, submit, reset } = useRequiredForm();
+  if (done)
+    return <Success title="Thank you for joining" again="Submit another" onReset={reset}
+      text="Demo only: nothing was saved and no email was sent. In the live version you will receive an email to confirm your address." />;
+  return (
+    <form onSubmit={submit} noValidate className="panel grid gap-8 p-6 sm:p-9">
+      <div>
+        <h2 className="h2">To join, please fill in the form below</h2>
+        <p className="mt-2 text-sm text-muted">Note: you will receive an email to confirm, so your email address must be entered accurately. Fields marked * are required.</p>
+      </div>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field label="First Name" name="firstName" required errors={errors} />
+        <Field label="Surname" name="surname" required errors={errors} />
+        <Field label="Telephone" name="telephone" type="tel" required errors={errors} />
+        <Field label="Email" name="email" type="email" required errors={errors} />
+        <div className="sm:col-span-2"><Field label="Address, City, Postcode, Country" name="address" errors={errors} /></div>
+        <Field label="College" name="college" required errors={errors} />
+        <Field label="Year of matriculation (joining)" name="year" required errors={errors} />
+        <Field label="Alumni number (optional)" name="alumniNumber" errors={errors} />
+      </div>
+      <LimitedText label="Any other details you would like to add (optional)" name="details" />
+      <fieldset className="grid gap-3">
+        <legend className="legend mb-3">I would like to be involved in the alumni network as follows:</legend>
+        {requiredConsents.map((l, i) => <Check_ key={i} name={`consent-${i}`} label={l} required errors={errors} />)}
+        {optionalConsents.map((l, i) => <Check_ key={i} name={`opt-${i}`} label={l} />)}
+      </fieldset>
+      <button className="btn w-fit" type="submit">Submit</button>
+    </form>
+  );
+}
+
+export function StatusForm() {
+  const { errors, done, submit, reset } = useRequiredForm();
+  if (done)
+    return <Success title="Request received" again="Make another change" onReset={reset}
+      text="Demo only. In the live version, if the email matches our records we send the updated details; otherwise nothing changes and no error is shown." />;
+  return (
+    <form onSubmit={submit} noValidate className="panel grid gap-6 p-6 sm:p-9">
+      <div>
+        <h2 className="h2">Change my status</h2>
+        <p className="mt-2 text-sm text-muted">Enter your email and select the new information you would like to opt in to or opt out of.</p>
+      </div>
+      <Field label="Email" name="email" type="email" required errors={errors} />
+      <fieldset className="grid gap-3">
+        {optionalConsents.map((l, i) => <Check_ key={i} name={`s-${i}`} label={l} />)}
+      </fieldset>
+      <button className="btn w-fit" type="submit">Submit</button>
+    </form>
+  );
+}

@@ -1,3 +1,20 @@
 import Link from "next/link";
-import { ExternalLink as Linkedin } from "lucide-react";
-export function Footer(){return <footer className="bg-oxford text-white"><div className="shell grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr]"><div><p className="display max-w-md text-3xl leading-tight">Enterprise grows stronger when knowledge travels.</p><p className="mt-5 max-w-sm text-sm text-white/65">Connecting Oxford alumni across ventures, sectors and borders.</p></div><div><p className="mb-4 text-xs font-bold uppercase tracking-[.15em] text-white/50">Explore</p><div className="grid gap-2 text-sm"><Link href="/about">About the network</Link><Link href="/JoinUs">Join us</Link><Link href="/contact">Leadership</Link><Link href="/partners">Partners & sponsors</Link></div></div><div><p className="mb-4 text-xs font-bold uppercase tracking-[.15em] text-white/50">Connect</p><a className="text-sm" href="mailto:info@oenalumni.com">info@oenAlumni.com</a><a aria-label="LinkedIn" className="mt-5 grid h-10 w-10 place-items-center border border-white/30" href="#"><Linkedin size={17}/></a></div></div><div className="border-t border-white/15"><div className="shell flex flex-col gap-2 py-5 text-xs text-white/50 sm:flex-row sm:justify-between"><p>© 2026 Oxford Entrepreneurs Alumni Network</p><Link href="/privacy">Privacy & cookies</Link></div></div></footer>}
+
+export function Footer() {
+  return (
+    <footer className="mt-24 bg-oxford text-white">
+      <div className="shell flex flex-col gap-6 py-10 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="display text-2xl font-semibold">Oxford Entrepreneurs Alumni Network</p>
+          <p className="mt-1 text-sm text-white/65">
+            <a className="underline-offset-4 hover:underline" href="mailto:info@oenAlumni.com">info@oenAlumni.com</a>
+          </p>
+        </div>
+        <div className="flex flex-col gap-1 text-sm text-white/65 sm:items-end">
+          <Link className="text-white underline-offset-4 hover:underline" href="/privacy">Privacy policy &amp; cookies</Link>
+          <p>© 2026 Oxford Entrepreneurs Alumni Network</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
