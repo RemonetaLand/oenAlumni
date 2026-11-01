@@ -13,6 +13,11 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Demo
+
+The latest `main` branch is automatically exported and published to
+[GitHub Pages](https://remonetaland.github.io/oenAlumni/).
+
 ## Verification
 
 ```bash

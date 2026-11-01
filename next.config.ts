@@ -1,12 +1,17 @@
 import type { NextConfig } from "next";
 
+const isGitHubPages = process.env.GITHUB_ACTIONS === "true";
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "export",
+  trailingSlash: true,
+  basePath: isGitHubPages ? "/oenAlumni" : "",
   images: {
+    unoptimized: true,
     remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
   },
-  cacheComponents: true,
-  partialPrefetching: true,
+  cacheComponents: !isGitHubPages,
+  partialPrefetching: !isGitHubPages,
   turbopack: {
     rules: {
       "*.css": {

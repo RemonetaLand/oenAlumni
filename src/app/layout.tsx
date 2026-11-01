@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  return <html lang="en" className={`${display.variable} ${sans.variable}`}><body><Header /><main>{children}</main><Footer /><CookieNotice /></body></html>;
+  return <html lang="en" data-scroll-behavior="smooth" className={`${display.variable} ${sans.variable}`}><body><Header /><main>{children}</main><Footer /><CookieNotice /></body></html>;
 }
