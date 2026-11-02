@@ -7,7 +7,7 @@ export function Footer() {
         <div>
           <p className="display text-2xl font-semibold">Oxford Entrepreneurs Alumni Network</p>
           <p className="mt-1 text-sm text-white/65">
-            <a className="underline-offset-4 hover:underline" href="mailto:info@oenAlumni.com">info@oenAlumni.com</a>
+            <a className="underline-offset-4 hover:underline" href="mailto:Info@OenAlumni.com">Info@OenAlumni.com</a>
           </p>
         </div>
         <div className="flex flex-col gap-1 text-sm text-white/65 sm:items-end">

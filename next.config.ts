@@ -9,7 +9,10 @@ const nextConfig: NextConfig = {
   env: { NEXT_PUBLIC_BASE_PATH: isGitHubPages ? "/oenAlumni" : "" },
   images: {
     unoptimized: true,
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "oxfordsustainable.com" },
+    ],
   },
   cacheComponents: !isGitHubPages,
   partialPrefetching: !isGitHubPages,

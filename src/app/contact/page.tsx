@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Mail } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 
@@ -13,7 +14,8 @@ const leaders = [
       "He has owned companies in sustainable real estate, land management, agriculture, technology, sustainable consultancy and media, in the UK, Estonia, Latvia, Norway, Finland, Romania, The Netherlands, Guernsey, US, amongst others and achieved a number of industry firsts and awards.",
       "Hadley currently runs Oxford Sustainable - an innovative start-up with a 20-year brand history, disrupting sustainability spend, by transforming it from slow, complex and loss-making to “4-clicks and done” simple and profitable - aiming to be the gold standard for global sustainable infrastructure - a Fort Knox of environmental value.",
     ],
-    links: [["Info@OxfordSustainable.com", "mailto:Info@OxfordSustainable.com"], ["LinkedIn profile", "https://www.linkedin.com/in/hadleybarrett/"]],
+    linkedin: "https://www.linkedin.com/in/hadleybarrett/",
+    website: "https://oxfordsustainable.com/",
   },
   {
     initials: "MGJ", photo: "/team/manjiri.jpg", name: "Manjiri Gokhale Joshi", role: "CEO", highlights: ["Chevening Scholar", "Author of six books", "Maya CARE co-founder"], subtitle: ["Co-Founder, Elephant Connect Education", "Co-Founder, Maya CARE Foundation"],
@@ -26,7 +28,8 @@ const leaders = [
       "She was also one of only 12 professionals selected from more than 13,000 LinkedIn applicants to work with Sir Richard Branson in evaluating and mentoring entrepreneurs competing for a £1 million fund.",
       "Manjiri is the author of six published books, three of which are used as core resources in leadership development programmes.",
     ],
-    links: [["LinkedIn profile", "https://linkedin.com/in/manjirigokhalejoshi"]],
+    linkedin: "https://linkedin.com/in/manjirigokhalejoshi",
+    website: null,
   },
 ];
 
@@ -35,9 +38,9 @@ export default function ContactPage() {
     <>
       <PageIntro kicker="Contact" title="Contacts in the Alumni network leadership team" />
       <section className="shell pb-6">
-        <a href="mailto:info@oenAlumni.com" className="panel flex items-center gap-4 p-5 transition-transform hover:-translate-y-0.5 sm:w-fit sm:pr-10">
+        <a href="mailto:Info@OenAlumni.com" className="panel flex items-center gap-4 p-5 transition-transform hover:-translate-y-0.5 sm:w-fit sm:pr-10">
           <span className="grid h-11 w-11 place-items-center rounded-full bg-oxford text-white"><Mail size={18} /></span>
-          <span><span className="kicker block">General enquiries</span><span className="font-bold text-oxford">info@oenAlumni.com</span></span>
+          <span><span className="kicker block">General enquiries</span><span className="font-bold text-oxford">Info@OenAlumni.com</span></span>
         </a>
       </section>
       <section className="shell grid gap-6 pb-8 lg:grid-cols-2">
@@ -53,7 +56,18 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="kicker !text-[#e6c48f]">{p.role}</p>
-                <h2 className="display mt-1 text-3xl font-semibold leading-tight sm:text-4xl">{p.name}</h2>
+                <div className="mt-1 flex flex-wrap items-center gap-3">
+                  <h2 className="display text-3xl font-semibold leading-tight sm:text-4xl">{p.name}</h2>
+                  <a
+                    href={p.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${p.name} on LinkedIn`}
+                    className="grid h-8 w-8 place-items-center rounded-sm bg-[#0a66c2] text-sm font-extrabold leading-none text-white transition-transform hover:-translate-y-0.5"
+                  >
+                    in
+                  </a>
+                </div>
                 {p.subtitle.length > 0 && <p className="mt-2 text-sm italic text-white/70">{p.subtitle.map((s) => <span key={s} className="block">{s}</span>)}</p>}
               </div>
             </div>
@@ -64,9 +78,15 @@ export default function ContactPage() {
               <div className="space-y-3 text-[.93rem] leading-7 text-ink/85">
                 {p.bio.map((t, i) => <p key={t} className={i === 0 ? "text-base font-medium text-ink" : ""}>{t}</p>)}
               </div>
-              <p className="mt-6 flex flex-wrap gap-3">
-                {p.links.map(([l, h]) => <a key={h} className="btn btn-ghost" href={h} target={h.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{l}</a>)}
-              </p>
+              {p.website && (
+                <p className="mt-6 flex items-center gap-3 border-t border-stone pt-5 text-sm font-bold text-oxford">
+                  <span>Contact Hadley:</span>
+                  <a href={p.website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 underline-offset-4 hover:underline">
+                    <Image src="https://oxfordsustainable.com/favicon.png" width={24} height={24} alt="Oxford Sustainable" />
+                    <span>OxfordSustainable.com</span>
+                  </a>
+                </p>
+              )}
             </div>
           </article>
         ))}

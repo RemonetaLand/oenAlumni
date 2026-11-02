@@ -28,7 +28,7 @@ export default function AboutPage() {
           <h2 className="h2">Partner with us</h2>
           <p>Looking to expand your reach?</p>
           <p>We welcome new members, sponsors, and strategic partners who want to engage with our global community of Oxford alumni. Through partnership opportunities, your organisation can gain visibility across our events, programmes, and entrepreneurial ecosystem.</p>
-          <p>To learn more, contact <a className="font-bold underline" href="mailto:info@oenAlumni.com">info@oenAlumni.com</a> or visit <Link className="font-bold underline" href="/partners">Partners &amp; Sponsors</Link>.</p>
+          <p>To learn more, contact <a className="font-bold underline" href="mailto:Info@OenAlumni.com">Info@OenAlumni.com</a> or visit <Link className="font-bold underline" href="/partners">Partners &amp; Sponsors</Link>.</p>
         </div>
       </section>
     </>
