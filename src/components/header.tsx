@@ -12,13 +12,13 @@ export function Header() {
   const pathname = usePathname().replace(/\/$/, "") || "/";
   return (
     <header className="border-b border-stone/70 bg-paper/80 backdrop-blur-md">
-      <div className="shell flex items-start justify-between gap-6 py-5">
-        <div>
-          <Link href="/" className="display block text-[1.7rem] font-semibold leading-none tracking-[-0.02em] text-oxford sm:text-[2.3rem]">
+      <div className="shell flex items-start justify-between gap-3 py-4 sm:gap-6 sm:py-5">
+        <div className="min-w-0">
+          <Link href="/" className="display block text-[1.35rem] font-semibold leading-[.95] tracking-[-0.02em] text-oxford sm:text-[1.8rem] md:text-[2.3rem]">
             Oxford Entrepreneurs Network
           </Link>
           {/* Menu sits under the logo, half its size, plain words left to right */}
-          <nav aria-label="Primary" className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-[.8rem] font-semibold sm:text-[1.1rem]">
+          <nav aria-label="Primary" className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[.76rem] font-semibold sm:gap-x-6 sm:text-[.95rem] md:text-[1.1rem]">
             {links.map(([label, href]) => (
               <Link
                 key={href}
@@ -31,7 +31,7 @@ export function Header() {
             ))}
           </nav>
         </div>
-        <Link href="/JoinUs" className="btn mt-1 shrink-0">Join Us</Link>
+        <Link href="/JoinUs" className="btn mt-1 shrink-0 max-sm:min-h-10 max-sm:px-4 max-sm:py-2 max-sm:text-xs">Join Us</Link>
       </div>
     </header>
   );

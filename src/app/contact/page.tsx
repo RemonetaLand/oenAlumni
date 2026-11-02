@@ -38,9 +38,9 @@ export default function ContactPage() {
     <>
       <PageIntro kicker="Contact" title="Contacts in the Alumni network leadership team" />
       <section className="shell pb-6">
-        <a href="mailto:Info@OenAlumni.com" className="panel flex items-center gap-4 p-5 transition-transform hover:-translate-y-0.5 sm:w-fit sm:pr-10">
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-oxford text-white"><Mail size={18} /></span>
-          <span><span className="kicker block">General enquiries</span><span className="font-bold text-oxford">Info@OenAlumni.com</span></span>
+        <a href="mailto:Info@OenAlumni.com" className="panel grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 p-4 transition-transform hover:-translate-y-0.5 sm:w-fit sm:gap-4 sm:p-5 sm:pr-10">
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-oxford text-white sm:h-11 sm:w-11"><Mail size={18} /></span>
+          <span className="min-w-0"><span className="kicker block">General enquiries</span><span className="block break-all text-sm font-bold text-oxford sm:text-base">Info@OenAlumni.com</span></span>
         </a>
       </section>
       <section className="shell grid gap-6 pb-8 lg:grid-cols-2">
