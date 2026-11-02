@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { Mail } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 
 export const metadata: Metadata = { title: "Contact" };
 
 const leaders = [
   {
-    initials: "HB", name: "Hadley Barrett, Chairman", subtitle: [],
+    initials: "HB", name: "Hadley Barrett", role: "Chairman", highlights: ["Founder since age 14", "Boards of private funds", "Oxford Sustainable"], subtitle: [],
     bio: [
       "Starting at the age of 14, Hadley has owned, founded, built, sold, managed, invested in and supported companies, projects and teams across Europe.",
       "He has chaired and sat as a non-executive director on the boards of private funds.",
@@ -15,7 +16,7 @@ const leaders = [
     links: [["Info@OxfordSustainable.com", "mailto:Info@OxfordSustainable.com"], ["LinkedIn profile", "https://www.linkedin.com/in/hadleybarrett/"]],
   },
   {
-    initials: "MGJ", name: "Manjiri Gokhale Joshi, CEO", subtitle: ["Co-Founder, Elephant Connect Education", "Co-Founder, Maya CARE Foundation"],
+    initials: "MGJ", name: "Manjiri Gokhale Joshi", role: "CEO", highlights: ["Chevening Scholar", "Author of six books", "Maya CARE co-founder"], subtitle: ["Co-Founder, Elephant Connect Education", "Co-Founder, Maya CARE Foundation"],
     bio: [
       "Former Head of Equality, Diversity and Inclusion at Saïd Business School, University of Oxford, Mentoring Coordinator at Oxford’s Radcliffe Department of Medicine, and CEO of Global Talent Track, Manjiri specialises in leadership development, management training, executive coaching, and project management consulting.",
       "She is currently pursuing a PhD in Leadership and Inclusion, focusing on disability, on a scholarship from Queen Mary University of London. She was also selected as one of 30 mentors to mark the 30th anniversary of Saïd Business School.",
@@ -33,19 +34,35 @@ export default function ContactPage() {
   return (
     <>
       <PageIntro kicker="Contact" title="Contacts in the Alumni network leadership team" />
+      <section className="shell pb-6">
+        <a href="mailto:info@oenAlumni.com" className="panel flex items-center gap-4 p-5 transition-transform hover:-translate-y-0.5 sm:w-fit sm:pr-10">
+          <span className="grid h-11 w-11 place-items-center rounded-full bg-oxford text-white"><Mail size={18} /></span>
+          <span><span className="kicker block">General enquiries</span><span className="font-bold text-oxford">info@oenAlumni.com</span></span>
+        </a>
+      </section>
       <section className="shell grid gap-6 pb-8 lg:grid-cols-2">
         {leaders.map((p) => (
-          <article key={p.name} className="panel grid gap-6 p-6 sm:grid-cols-[150px_1fr] sm:p-8">
-            {/* Photo slot: swap for a real portrait; Hadley's to be supplied */}
-            <div className="grid aspect-[4/5] w-full max-w-[150px] place-items-center rounded bg-oxford/10 sm:max-w-none" role="img" aria-label={`Photo of ${p.name} to be added`}>
-              <span className="display text-5xl font-semibold text-oxford/40">{p.initials}</span>
+          <article key={p.name} className="panel overflow-hidden">
+            <div className="flex items-center gap-5 bg-oxford p-6 text-white sm:p-8">
+              {/* Photo slot: swap for a real portrait; Hadley's to be supplied */}
+              <div className="grid h-24 w-24 shrink-0 place-items-center rounded-full border-2 border-white/30 bg-white/10 sm:h-28 sm:w-28" role="img" aria-label={`Photo of ${p.name} to be added`}>
+                <span className="display text-3xl font-semibold text-white/70">{p.initials}</span>
+              </div>
+              <div>
+                <p className="kicker !text-[#e6c48f]">{p.role}</p>
+                <h2 className="display mt-1 text-3xl font-semibold leading-tight sm:text-4xl">{p.name}</h2>
+                {p.subtitle.length > 0 && <p className="mt-2 text-sm italic text-white/70">{p.subtitle.map((s) => <span key={s} className="block">{s}</span>)}</p>}
+              </div>
             </div>
-            <div className="space-y-3 text-[.93rem] leading-7 text-ink/85">
-              <h2 className="h2">{p.name}</h2>
-              {p.subtitle.length > 0 && <p className="italic text-muted">{p.subtitle.map((s) => <span key={s} className="block">{s}</span>)}</p>}
-              {p.bio.map((t) => <p key={t}>{t}</p>)}
-              <p className="flex flex-col gap-1 pt-2 font-bold text-oxford">
-                {p.links.map(([l, h]) => <a key={h} className="underline underline-offset-4" href={h} target={h.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{l}</a>)}
+            <div className="p-6 sm:p-8">
+              <ul className="mb-6 flex flex-wrap gap-2">
+                {p.highlights.map((h) => <li key={h} className="rounded-full border border-stone bg-white px-3 py-1 text-xs font-bold text-oxford">{h}</li>)}
+              </ul>
+              <div className="space-y-3 text-[.93rem] leading-7 text-ink/85">
+                {p.bio.map((t, i) => <p key={t} className={i === 0 ? "text-base font-medium text-ink" : ""}>{t}</p>)}
+              </div>
+              <p className="mt-6 flex flex-wrap gap-3">
+                {p.links.map(([l, h]) => <a key={h} className="btn btn-ghost" href={h} target={h.startsWith("http") ? "_blank" : undefined} rel="noreferrer">{l}</a>)}
               </p>
             </div>
           </article>
