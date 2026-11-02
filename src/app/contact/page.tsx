@@ -46,7 +46,7 @@ export default function ContactPage() {
       <section className="shell grid gap-6 pb-8 lg:grid-cols-2">
         {leaders.map((p) => (
           <article key={p.name} className="panel overflow-hidden">
-            <div className="flex items-center gap-5 bg-oxford p-6 text-white sm:p-8">
+            <div className="flex flex-col items-center gap-5 bg-oxford p-6 text-center text-white sm:p-8 md:flex-row md:text-left">
               {/* Portrait; falls back to initials if a leader has no photo */}
               <div className="grid h-24 w-24 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-white/30 bg-white/10 sm:h-28 sm:w-28" role="img" aria-label={p.photo ? `Photo of ${p.name}` : `Photo of ${p.name} to be added`}>
                 {p.photo
@@ -54,10 +54,10 @@ export default function ContactPage() {
                   ? <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${p.photo}`} alt="" className="h-full w-full object-cover object-top" />
                   : <span className="display text-3xl font-semibold text-white/70">{p.initials}</span>}
               </div>
-              <div>
+              <div className="min-w-0 w-full md:w-auto">
                 <p className="kicker !text-[#e6c48f]">{p.role}</p>
-                <div className="mt-1 flex flex-wrap items-center gap-3">
-                  <h2 className="display text-3xl font-semibold leading-tight sm:text-4xl">{p.name}</h2>
+                <div className="mt-1 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+                  <h2 className="display text-2xl font-semibold leading-tight sm:text-3xl">{p.name}</h2>
                   <a
                     href={p.linkedin}
                     target="_blank"
@@ -68,7 +68,7 @@ export default function ContactPage() {
                     in
                   </a>
                 </div>
-                {p.subtitle.length > 0 && <p className="mt-2 text-sm italic text-white/70">{p.subtitle.map((s) => <span key={s} className="block">{s}</span>)}</p>}
+                {p.subtitle.length > 0 && <p className="mx-auto mt-3 max-w-sm text-sm italic text-white/70 md:mx-0">{p.subtitle.map((s) => <span key={s} className="block">{s}</span>)}</p>}
               </div>
             </div>
             <div className="p-6 sm:p-8">
@@ -79,10 +79,10 @@ export default function ContactPage() {
                 {p.bio.map((t, i) => <p key={t} className={i === 0 ? "text-base font-medium text-ink" : ""}>{t}</p>)}
               </div>
               {p.website && (
-                <p className="mt-6 flex items-center gap-3 border-t border-stone pt-5 text-sm font-bold text-oxford">
+                <p className="mt-6 flex flex-col items-start gap-2 border-t border-stone pt-5 text-sm font-bold text-oxford sm:flex-row sm:items-center sm:gap-3">
                   <span>Contact Hadley:</span>
-                  <a href={p.website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 underline-offset-4 hover:underline">
-                    <Image src="https://oxfordsustainable.com/favicon.png" width={24} height={24} alt="Oxford Sustainable" />
+                  <a href={p.website} target="_blank" rel="noreferrer" className="inline-flex max-w-full items-center gap-2 underline-offset-4 hover:underline">
+                    <Image className="shrink-0" src="https://oxfordsustainable.com/favicon.png" width={24} height={24} alt="Oxford Sustainable" />
                     <span>OxfordSustainable.com</span>
                   </a>
                 </p>
