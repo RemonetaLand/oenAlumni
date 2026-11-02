@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
   basePath: isGitHubPages ? "/oenAlumni" : "",
+  env: { NEXT_PUBLIC_BASE_PATH: isGitHubPages ? "/oenAlumni" : "" },
   images: {
     unoptimized: true,
     remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],

@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Contact" };
 
 const leaders = [
   {
-    initials: "HB", name: "Hadley Barrett", role: "Chairman", highlights: ["Founder since age 14", "Boards of private funds", "Oxford Sustainable"], subtitle: [],
+    initials: "HB", photo: "/team/hadley.jpg", name: "Hadley Barrett", role: "Chairman", highlights: ["Founder since age 14", "Boards of private funds", "Oxford Sustainable"], subtitle: [],
     bio: [
       "Starting at the age of 14, Hadley has owned, founded, built, sold, managed, invested in and supported companies, projects and teams across Europe.",
       "He has chaired and sat as a non-executive director on the boards of private funds.",
@@ -16,7 +16,7 @@ const leaders = [
     links: [["Info@OxfordSustainable.com", "mailto:Info@OxfordSustainable.com"], ["LinkedIn profile", "https://www.linkedin.com/in/hadleybarrett/"]],
   },
   {
-    initials: "MGJ", name: "Manjiri Gokhale Joshi", role: "CEO", highlights: ["Chevening Scholar", "Author of six books", "Maya CARE co-founder"], subtitle: ["Co-Founder, Elephant Connect Education", "Co-Founder, Maya CARE Foundation"],
+    initials: "MGJ", photo: "/team/manjiri.jpg", name: "Manjiri Gokhale Joshi", role: "CEO", highlights: ["Chevening Scholar", "Author of six books", "Maya CARE co-founder"], subtitle: ["Co-Founder, Elephant Connect Education", "Co-Founder, Maya CARE Foundation"],
     bio: [
       "Former Head of Equality, Diversity and Inclusion at Saïd Business School, University of Oxford, Mentoring Coordinator at Oxford’s Radcliffe Department of Medicine, and CEO of Global Talent Track, Manjiri specialises in leadership development, management training, executive coaching, and project management consulting.",
       "She is currently pursuing a PhD in Leadership and Inclusion, focusing on disability, on a scholarship from Queen Mary University of London. She was also selected as one of 30 mentors to mark the 30th anniversary of Saïd Business School.",
@@ -44,9 +44,12 @@ export default function ContactPage() {
         {leaders.map((p) => (
           <article key={p.name} className="panel overflow-hidden">
             <div className="flex items-center gap-5 bg-oxford p-6 text-white sm:p-8">
-              {/* Photo slot: swap for a real portrait; Hadley's to be supplied */}
-              <div className="grid h-24 w-24 shrink-0 place-items-center rounded-full border-2 border-white/30 bg-white/10 sm:h-28 sm:w-28" role="img" aria-label={`Photo of ${p.name} to be added`}>
-                <span className="display text-3xl font-semibold text-white/70">{p.initials}</span>
+              {/* Portrait; falls back to initials if a leader has no photo */}
+              <div className="grid h-24 w-24 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-white/30 bg-white/10 sm:h-28 sm:w-28" role="img" aria-label={p.photo ? `Photo of ${p.name}` : `Photo of ${p.name} to be added`}>
+                {p.photo
+                  // eslint-disable-next-line @next/next/no-img-element
+                  ? <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${p.photo}`} alt="" className="h-full w-full object-cover object-top" />
+                  : <span className="display text-3xl font-semibold text-white/70">{p.initials}</span>}
               </div>
               <div>
                 <p className="kicker !text-[#e6c48f]">{p.role}</p>
