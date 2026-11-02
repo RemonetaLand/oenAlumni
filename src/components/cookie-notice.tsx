@@ -17,6 +17,9 @@ export function CookieNotice() {
     try { localStorage.setItem(KEY, value); } catch {}
     setVisible(false);
   };
+  const decline = () => {
+    window.location.assign("https://www.google.com/");
+  };
   return (
     <aside aria-label="Privacy approval" className="panel fixed bottom-4 left-1/2 z-50 w-[min(680px,calc(100%-28px))] -translate-x-1/2 p-5">
       <p className="display text-xl font-semibold text-oxford">Oxford Entrepreneurs Alumni Network</p>
@@ -24,8 +27,8 @@ export function CookieNotice() {
         We use your details only as described in our <Link className="underline" href="/privacy">privacy policy</Link>. Please approve to continue.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
-        <button onClick={() => choose("all")} className="btn">Accept all</button>
-        <button onClick={() => choose("none")} className="btn btn-ghost">Decline</button>
+        <button onClick={() => choose("all")} className="btn">Accept</button>
+        <button onClick={decline} className="btn btn-ghost">Decline</button>
       </div>
     </aside>
   );
