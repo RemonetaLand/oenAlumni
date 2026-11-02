@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Contact" };
 
 const leaders = [
   {
-    initials: "HB", photo: "/team/hadley.jpg", name: "Hadley Barrett", role: "Chairman", highlights: ["Multi-exited entrepreneur", "Chairman and Non-Exec", "Multiple award winner", "Founder since age 14", "Multi-jurisdictional leader"], subtitle: [],
+    initials: "HB", photo: "/team/hadley.jpg", name: "Hadley Barrett", role: "Chairman", highlights: ["Multi-exited entrepreneur", "Chairman and Non-Exec", "Multiple award winner",  "Multi-jurisdictional leader"], subtitle: [],
     bio: [
       "Starting at the age of 14, Hadley has owned, founded, built, sold, managed, invested in and supported companies, projects and teams across Europe.",
       "He has chaired and sat as a non-executive director on the boards of private funds.",
