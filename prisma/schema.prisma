@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MemberStatus {
+  pending
+  confirmed
+  unsubscribed
+
+  @@map("member_status")
+}
+
+model Member {
+  id                       String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  firstName                String       @map("first_name")
+  surname                  String
+  telephone                String
+  /// Always stored lowercase (enforced by the API and a CHECK constraint)
+  email                    String       @unique
+  address                  String       @default("")
+  college                  String
+  matriculationYear        String       @map("matriculation_year")
+  alumniNumber             String       @default("") @map("alumni_number")
+  notes                    String       @default("")
+  status                   MemberStatus @default(pending)
+  consentDataProcessing    Boolean      @map("consent_data_processing")
+  consentNecessaryEmails   Boolean      @map("consent_necessary_emails")
+  consentEvents            Boolean      @default(false) @map("consent_events")
+  consentShareOxford       Boolean      @default(false) @map("consent_share_oxford")
+  consentShareThirdParties Boolean      @default(false) @map("consent_share_third_parties")
+  consentCommGroups        Boolean      @default(false) @map("consent_comm_groups")
+  consentVolunteer         Boolean      @default(false) @map("consent_volunteer")
+  consentTextVersion       String       @map("consent_text_version")
+  /// Only the hash of the emailed token is stored
+  confirmTokenHash         String?      @map("confirm_token_hash")
+  confirmExpiresAt         DateTime?    @map("confirm_expires_at") @db.Timestamptz(6)
+  confirmedAt              DateTime?    @map("confirmed_at") @db.Timestamptz(6)
+  createdAt                DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt                DateTime     @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  consentLog      ConsentLog[]
+  statusRequests  StatusRequest[]
+
+  @@index([status])
+  @@index([confirmTokenHash])
+  @@map("members")
+}
+
+model Partner {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  firstName String   @map("first_name")
+  surname   String
+  company   String   @default("")
+  telephone String
+  email     String
+  request   String   @default("")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("partners")
+}
+
+/// Audit trail of every consent change
+model ConsentLog {
+  id        Int      @id @default(autoincrement())
+  memberId  String   @map("member_id") @db.Uuid
+  source    String
+  before    Json?
+  after     Json
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@map("consent_log")
+}
+
+model StatusRequest {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  memberId         String    @map("member_id") @db.Uuid
+  requestedChanges Json      @map("requested_changes")
+  tokenHash        String    @map("token_hash")
+  expiresAt        DateTime  @map("expires_at") @db.Timestamptz(6)
+  usedAt           DateTime? @map("used_at") @db.Timestamptz(6)
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@index([tokenHash])
+  @@map("status_requests")
+}
+
+model Admin {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// Always stored lowercase
+  email        String   @unique
+  name         String   @default("")
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@map("admins")
+}
+
+/// Fixed-window rate limiting (few users, so Postgres is enough)
+model RateLimit {
+  key         String
+  windowStart DateTime @map("window_start") @db.Timestamptz(6)
+  count       Int      @default(1)
+
+  @@id([key, windowStart])
+  @@map("rate_limits")
+}

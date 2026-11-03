@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
-import { CookieNotice } from "@/components/cookie-notice";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
 import "./globals.css";
 
 const display = Cormorant_Garamond({ variable: "--font-display", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -16,13 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${display.variable} ${sans.variable}`}>
-      <body>
-        <div className="backdrop" aria-hidden="true" />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <CookieNotice />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

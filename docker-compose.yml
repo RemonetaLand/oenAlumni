@@ -1,0 +1,15 @@
+# Local Postgres for development. Port 5434 because 5433 is used by another project.
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: oenalumni_postgres
+    environment:
+      POSTGRES_USER: oen
+      POSTGRES_PASSWORD: oen_local_dev
+      POSTGRES_DB: oenalumni
+    ports:
+      - "127.0.0.1:5434:5432"
+    volumes:
+      - oen_pgdata:/var/lib/postgresql/data
+volumes:
+  oen_pgdata:

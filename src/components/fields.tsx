@@ -1,59 +1,84 @@
 "use client";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Check } from "lucide-react";
+import { get, useFormContext } from "react-hook-form";
+import type { z } from "zod";
+import { postJson } from "@/lib/client";
 
-export type Errors = Record<string, boolean>;
-
-/** Client-side validation: marks every empty required field so it can be highlighted red. */
-export function useRequiredForm(onValid?: () => void) {
-  const [errors, setErrors] = useState<Errors>({});
-  const [done, setDone] = useState(false);
-  function submit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const next: Errors = {};
-    for (const el of Array.from(form.elements) as HTMLInputElement[]) {
-      if (!el.name || !el.required) continue;
-      const bad = el.type === "checkbox" ? !el.checked : !el.value.trim() || !el.checkValidity();
-      if (bad) next[el.name] = true;
-    }
-    setErrors(next);
-    if (Object.keys(next).length === 0) { onValid?.(); setDone(true); }
-  }
-  return { errors, done, setDone, submit, reset: () => { setErrors({}); setDone(false); } };
+/** Error object for a field name such as "email" or "optional.events". */
+function useFieldError(name: string) {
+  const { formState } = useFormContext();
+  return get(formState.errors, name) as { message?: string } | undefined;
 }
 
-export function Field({ label, name, type = "text", required = false, errors = {} }: {
-  label: string; name: string; type?: string; required?: boolean; errors?: Errors;
-}) {
-  const bad = errors[name];
+export function Field({ label, name, type = "text", required = false }: { label: string; name: string; type?: string; required?: boolean }) {
+  const { register } = useFormContext();
+  const bad = useFieldError(name);
   return (
-    <div className="field" data-invalid={bad || undefined}>
+    <div className="field" data-invalid={bad ? true : undefined}>
       <label htmlFor={name}>{label}{required && <span className="ml-1 text-gold">*</span>}</label>
-      <input id={name} name={name} type={type} required={required} aria-invalid={bad || undefined} />
+      <input id={name} type={type} aria-invalid={bad ? true : undefined} {...register(name)} />
       {bad && <p className="field-error">Please complete this field{type === "email" ? " with a valid email" : ""}.</p>}
     </div>
   );
 }
 
 export function LimitedText({ label, name }: { label: string; name: string }) {
-  const [n, setN] = useState(0);
+  const { register, watch } = useFormContext();
+  const length = String(watch(name) ?? "").length;
   return (
     <div className="field">
       <label htmlFor={name}>{label}</label>
-      <textarea id={name} name={name} maxLength={500} onChange={(e) => setN(e.target.value.length)} />
-      <p className="text-right text-xs text-muted">{n} / 500</p>
+      <textarea id={name} maxLength={500} {...register(name)} />
+      <p className="text-right text-xs text-muted">{length} / 500</p>
     </div>
   );
 }
 
-export function Check_({ name, label, required = false, errors = {} }: { name: string; label: string; required?: boolean; errors?: Errors }) {
+export function Check_({ name, label, required = false }: { name: string; label: string; required?: boolean }) {
+  const { register } = useFormContext();
+  const bad = useFieldError(name);
   return (
-    <label className="check" data-invalid={errors[name] || undefined}>
-      <input type="checkbox" name={name} required={required} />
+    <label className="check" data-invalid={bad ? true : undefined}>
+      <input type="checkbox" {...register(name)} />
       <span>{label}{required && <strong className="ml-1 text-gold">*</strong>}</span>
     </label>
   );
+}
+
+/** Hidden field real visitors never fill in; bots usually do. */
+export function Honeypot() {
+  const { register } = useFormContext();
+  return (
+    <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+      <label>Website<input type="text" tabIndex={-1} autoComplete="off" {...register("website")} /></label>
+    </div>
+  );
+}
+
+export function SubmitRow({ error }: { error: string | null }) {
+  const { formState } = useFormContext();
+  return (
+    <div className="grid gap-3">
+      {error && <p role="alert" className="field-error">{error}</p>}
+      <button className="btn w-fit" type="submit" disabled={formState.isSubmitting}>{formState.isSubmitting ? "Sending…" : "Submit"}</button>
+    </div>
+  );
+}
+
+/**
+ * Shared submit flow: the same zod schema the server uses validates in the browser (errors highlight red,
+ * first one is focused), then the values are posted to the API.
+ */
+export function useApiSubmit<S extends z.ZodType>(endpoint: string) {
+  const [done, setDone] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const onValid = async (values: z.output<S>) => {
+    setServerError(null);
+    const error = await postJson(endpoint, values).catch(() => "Could not reach the server. Please try again.");
+    if (error) setServerError(error); else setDone(true);
+  };
+  return { done, serverError, onValid, reset: () => { setServerError(null); setDone(false); } };
 }
 
 export function Success({ title, text, onReset, again }: { title: string; text: string; onReset: () => void; again: string }) {
