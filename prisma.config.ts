@@ -7,5 +7,6 @@ config({ path: ".env.local", quiet: true });
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: { path: "prisma/migrations" },
-  datasource: { url: process.env.DATABASE_URL },
+  // Migrations need a direct (unpooled) connection; Neon sets DATABASE_URL_UNPOOLED, other hosts just use DATABASE_URL.
+  datasource: { url: process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL },
 });

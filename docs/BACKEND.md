@@ -143,3 +143,5 @@ Sender: `info@oenAlumni.com` (or a no-reply address on the same domain). Needs t
 - Turnstile keys (the server check is in; the widget is not added to the forms yet).
 - Real per-person admin accounts for Hadley, Manjiri and Aman (for now a single **fixed admin** is set with `ADMIN_EMAIL` / `ADMIN_PASSWORD` in the environment; DB admins from `admin:create` also still work). Set a strong `ADMIN_PASSWORD` in production; production `AUTH_SECRET`; `SITE_URL`; `PARTNER_NOTIFY_EMAIL`.
 - Approved privacy policy text; consent wording version (`CONSENT_VERSION`) should be bumped if the wording changes.
+
+**Neon (hosted Postgres).** Project `sweet-mouse-79728633`, branch `production`, set up with the Neon CLI (`neon.ts`, `skills-lock.json`, `.agents/skills`). The app reads `DATABASE_URL_POOLED` at runtime (`src/lib/db.ts`) and `DATABASE_URL_UNPOOLED` for migrations (`prisma.config.ts`); both fall back to `DATABASE_URL`. The `init` migration is applied. On Vercel set `DATABASE_URL_POOLED`, `DATABASE_URL_UNPOOLED`, `AUTH_SECRET`, `SITE_URL`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` (plus Resend/Turnstile later).
