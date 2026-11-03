@@ -2,7 +2,7 @@
 
 Frontend prototype for the Oxford Entrepreneurs Alumni Network website. It includes public content pages, responsive navigation, dummy leadership profiles, demo membership and partnership forms, and a privacy preference banner.
 
-The forms are frontend demonstrations only: submissions are not stored or emailed.
+Forms save to Postgres and send double opt-in confirmation emails (emails print to the server console until `RESEND_API_KEY` is set).
 
 ## Development
 
@@ -24,10 +24,9 @@ Local development login:
 
 Set your own `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env.local`. In production, set both in the host's environment variables and use a different password from the one above.
 
-## Demo
+## Deployment
 
-The latest `main` branch is automatically exported and published to
-[GitHub Pages](https://remonetaland.github.io/oenAlumni/).
+`main` is a Next.js server app deployed on Vercel with a Neon Postgres database (see `docs/BACKEND.md`). The old GitHub Pages static prototype has been retired.
 
 ## Verification
 

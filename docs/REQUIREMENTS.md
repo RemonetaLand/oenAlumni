@@ -2,7 +2,7 @@
 
 Source: email from Hadley Barrett, "New web pages". Status checked against the repo on 2 Nov 2026.
 
-- Live prototype: https://remonetaland.github.io/oenAlumni/ (auto-deploys from `main`, see `.github/workflows/deploy-pages.yml`)
+- Hosting: Vercel (from `main`) + Neon Postgres. The GitHub Pages prototype was retired on 3 Nov 2026.
 - Target domain: **oenAlumni.com**
 - Live checklist artifact: https://claude.ai/artifact/73RUm5dF8Tao3NbNemXo7n (kept in sync after every commit)
 
